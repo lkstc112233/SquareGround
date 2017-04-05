@@ -1,19 +1,20 @@
 package frame;
 
 import java.awt.*;
-
 import javax.swing.JPanel;
 
+import main.Helper;
 
-import simulation.road.DiscreteThread;
 
-public abstract class Determinant extends DiscreteThread{
+
+public abstract class Determinant extends model.DiscreteThread{
 	
 	private String testname;
 		public String getTestName(){return testname;}
 		public Determinant setTestName(String testname){
 			if(testname==null) testname="Determinand";
-			this.testname="<WL> "+testname;return this;
+			this.testname="<"+Helper.name+"> "+testname;
+			return this;
 		}
 	
 	private Refreshable refreshable;
@@ -28,6 +29,7 @@ public abstract class Determinant extends DiscreteThread{
 		}
 	}
 	
+	@Override
 	public void Start(){
 		super.Start();
 	}

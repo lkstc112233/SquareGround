@@ -5,19 +5,17 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.*;
 
-import model.Operater;
+import main.Helper;
 
 public final class ToolBar extends Panel {
 	private static final long serialVersionUID = -800095694161787037L;
 	
-	private Frame frame;
 	
-	public ToolBar(Frame frame){
-		this.setBackground(Color.LIGHT_GRAY);
+	public ToolBar(){
+		super();
 		this.setLayout(new GridBagLayout());
 		this.show=true;
 		this.setup();
-		this.frame=frame;
 	}
 	
 	private JPanel[] panels=new JPanel[50];
@@ -34,6 +32,7 @@ public final class ToolBar extends Panel {
 		return this.show;
 	}
 
+	@Override
     public void refreshDeep(){
     	this.clear();
     	this.setup();
@@ -54,69 +53,89 @@ public final class ToolBar extends Panel {
 
 	public void setup(){
 		int i=0,y=0,w,W=6,lef=1;
-		if()
-		//============================================================================
-		cs[i]=new JLabel("=============Square Ground v1.0=============");
-		((JLabel)cs[i]).setFont(new Font("ËÎÌו",Font.PLAIN,18));
-		panels[i]=Helper.createComponent(this,cs[i],lef,y,W,1,false);
-		i++;y++;
-		//============================================================================
-		cs[i]=new JLabel("IP & port");
-		panels[i]=Helper.createComponent(this,cs[i],lef,y,w = 3,1,false);
-		i++;
-		cs[i]=this.frame.oper.Statu_get(Operater.OperaterStatu.LOAD)?
-				new JTextField(20)
-				:new JLabel(""+this.frame.oper.get_ip()+":"+this.frame.oper.get_port());
-		panels[i]=Helper.createComponent(this,cs[i],w,y,W-w,1,false);
-		cis[0]=i;
-		i++;y++;
-		//============================================================================
-		cs[i]=new JLabel("Enter code");
-		panels[i]=Helper.createComponent(this,cs[i],lef,y,w = 3,1,false);
-		i++;
-		cs[i]=this.frame.oper.Statu_get(Operater.OperaterStatu.LOAD)?
-				new JTextField(20)
-				:new JLabel(""+this.frame.oper.get_code());
-		panels[i]=Helper.createComponent(this,cs[i],w,y,W-w,1,false);
-		cis[1]=i;
-		i++;y++;
-		//============================================================================
-		cs[i]=this.frame.oper.Statu_get(Operater.OperaterStatu.LOAD)?
-				 new JLabel(">>  join the game  <<")
-				:new JLabel("<< get out of here >>");
-		panels[i]=Helper.createComponent(this,cs[i],lef,y,w = 6,1,false);
-		panels[i].addMouseListener(new Listener(){
-			public void mouseReleased(MouseEvent e){
-				if(ToolBar.this.frame.oper.Statu_get(Operater.OperaterStatu.LOAD)){
-					ToolBar.this.frame.oper.logout();
-				}else{
-					String ip,code;
-					int port;
-					try{
-						String[] ipport=((JTextField)cs[cis[0]]).getText().split(":");
-						ip=ipport[0];
-						port=Integer.parseInt(ipport[1]);
-						code=((JTextField)cs[cis[1]]).getText();
-					}catch(Throwable t){
-						t.printStackTrace();
-						ToolBar.this.frame.debugger.debug("ip&port is error!");
-						ToolBar.this.refresh();
-						return;
+		if(this.getShow()){
+			//============================================================================
+			cs[i]=new JLabel("============="+Helper.Name+" "+Helper.Version+"=============");
+			((JLabel)cs[i]).setFont(new Font("ËÎÌו",Font.PLAIN,18));
+			panels[i]=Helper.createComponent(this,cs[i],lef,y,W,1,false);
+			i++;y++;
+			//============================================================================
+			cs[i]=new JLabel("IP & port");
+			panels[i]=Helper.createComponent(this,cs[i],lef,y,w = 3,1,false);
+			i++;
+			cs[i]=this.frame.oper.isConnected()?
+					new JTextField(20)
+					:new JLabel(""+this.frame.oper.getIP()+":"+this.frame.oper.getPort());
+			panels[i]=Helper.createComponent(this,cs[i],w,y,W-w,1,false);
+			cis[0]=i;
+			i++;y++;
+			if(!this.frame.oper.isConnected()){
+				cs[i]=new JLabel("Connect to the Server");
+				panels[i]=Helper.createComponent(this,cs[i],w,y,W,1,false);
+				cis[1]=i;
+				panels[i].addMouseListener(new Listener(){
+					public void mouseReleased(MouseEvent e){
+						String ip;
+						int port;
+						try{
+							String[] ipport=((JTextField)cs[cis[0]]).getText().split(":");
+							ip=ipport[0];
+							port=Integer.parseInt(ipport[1]);
+							ToolBar.this.frame.oper.connectServer(ip, port);
+						}catch(Throwable t){
+							t.printStackTrace();
+							ToolBar.this.frame.debugger.debug("ip&port is error!");
+						}
+						ToolBar.this.frame.debugger.debug(ToolBar.this.frame.oper.isConnected()?
+								"Server connected!"
+								:"Fail to connect the Server!");
+						ToolBar.this.frame.refreshDeep();
 					}
-					ToolBar.this.frame.oper.login(ip, port, code);
-				}
-				ToolBar.this.refreshDeep();
+				});//*/
+				i++;y++;
 			}
-		});//*/
-		i++;y++;
+			if(this.frame.oper.isConnected() && this.frame.oper.getPlayer()!=null){
+				//============================================================================
+				cs[i]=new JLabel("Room Code");
+				panels[i]=Helper.createComponent(this,cs[i],lef,y,w = 3,1,false);
+				i++;
+				cs[i]=this.frame.oper.getRoom()==null?
+						new JTextField(20)
+						:new JLabel(""+this.frame.oper.getRoom().getCode());
+				panels[i]=Helper.createComponent(this,cs[i],w,y,W-w,1,false);
+				cis[2]=i;
+				i++;y++;
+				//============================================================================
+				cs[i]=this.frame.oper.getRoom()==null?
+						 new JLabel(">>  join the game  <<")
+						:new JLabel("<< get out of here >>");
+				panels[i]=Helper.createComponent(this,cs[i],lef,y,w = 6,1,false);
+				panels[i].addMouseListener(new Listener(){
+					public void mouseReleased(MouseEvent e){
+						if(this.frame.oper.getRoom()!=null){
+							ToolBar.this.frame.oper.getPlayer().logoutRoom();
+							ToolBar.this.frame.debugger.debug(ToolBar.this.frame.oper.getRoom()==null?
+									"Get out of the Room successfully!"
+									:"Fail to get out of the Room!");
+						}else{
+							String code=((JTextField)cs[cis[2]]).getText();
+							ToolBar.this.frame.oper.getPlayer().loginRoom(code);
+							ToolBar.this.frame.debugger.debug(ToolBar.this.frame.oper.getRoom()!=null?
+									"Get in Room successfully!"
+									:"Fail to get in the Room!");
+						}
+						ToolBar.this.frame.refreshDeep();
+					}
+				});//*/
+				i++;y++;
+			}
+		}
 		//============================================================================
 		//empty
 		cs[i]=new JLabel("");
-		panels[i]=Helper.createComponent(this,cs[i],0,y,6,1,true);
+		panels[i]=Helper.createComponent(this,cs[i],lef,y,6,1,true);
 		i++;y++;
 		//============================================================================
-		//imax
-		imax=i;
 		cs[i]=this.getShow()?
 				new JLabel(">")
 				:new JLabel("<<");
@@ -126,6 +145,9 @@ public final class ToolBar extends Panel {
 				ToolBar.this.setShow(!ToolBar.this.getShow());
 			}
 		});
+		//============================================================================
+		//imax
+		imax=i;
 	}
 	
 	

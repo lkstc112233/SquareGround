@@ -3,7 +3,7 @@ package frame;
 import java.awt.Component;
 import java.awt.event.*;
 
-public class Listener implements MouseListener,MouseMotionListener,MouseWheelListener,KeyListener{
+public abstract class Listener implements FrameSon,MouseListener,MouseMotionListener,MouseWheelListener,KeyListener{
 	
 	public void mouseClicked(MouseEvent e){}
 	public void mousePressed(MouseEvent e){}
@@ -28,4 +28,10 @@ public class Listener implements MouseListener,MouseMotionListener,MouseWheelLis
 		return this;
 	}
 	
+	protected Frame frame;
+	@Override
+	public Listener setFrame(Frame frame){
+		this.frame=frame;
+		return this;
+	}
 }
