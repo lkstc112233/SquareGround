@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -55,6 +56,7 @@ public class Debugger {
 		Graphics2D g2d=(Graphics2D)g;
 		g.setFont(font);
 		g.setColor(color);
+		g2d.setStroke(new BasicStroke());
 		FontRenderContext context=g2d.getFontRenderContext();
 		Rectangle2D bounds;
 		int y=panel.getHeight()-margin;

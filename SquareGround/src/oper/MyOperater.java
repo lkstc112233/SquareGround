@@ -1,50 +1,64 @@
 package oper;
 
+import java.io.IOException;
 import java.util.List;
+
+import web.ClientAutoScanner;
 
 public class MyOperater implements Operation{
 
+	private web.ClientAutoScanner client=null;
+	
+	public MyOperater(){
+	}
+	
 	@Override
 	public void connectServer(String ip, int port) {
-		// TODO Auto-generated method stub
-		
+		try {
+			this.client=new ClientAutoScanner(ip,port);
+		} catch (IOException e) {
+			e.printStackTrace();
+			client=null;
+			return;
+		}
+		this.client.start();
+		//player
+		this.player=new MyPlayer();
 	}
 
 	@Override
 	public boolean isConnected() {
-		// TODO Auto-generated method stub
-		return false;
+		return client!=null && !client.isClosed() && !client.isInputShutdown() && !client.isOutputShutdown(); 
 	}
 
 	@Override
 	public String getIP() {
-		// TODO Auto-generated method stub
-		return null;
+		return client.getInetAddress().getHostAddress();
 	}
 
 	@Override
 	public int getPort() {
-		// TODO Auto-generated method stub
-		return 0;
+		return client.getLocalPort();
 	}
 
-
+	protected CallBack func=null;
 	@Override
 	public void setCallBack(CallBack callback) {
-		// TODO Auto-generated method stub
-		
+		synchronized(this.func){
+			this.func=callback;
+		}
 	}
-
+	
+	protected Player player;
 	@Override
 	public Player getPlayer() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.player;
 	}
 
+	protected Room room;
 	@Override
 	public Room getRoom() {
-		// TODO Auto-generated method stub
-		return null;
+		return room;
 	}
 	
 	
