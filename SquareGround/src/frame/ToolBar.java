@@ -70,11 +70,13 @@ public final class ToolBar extends Panel {
 			cis[0]=i;
 			i++;y++;
 			if(!this.frame.oper.isConnected()){
-				cs[i]=new JLabel("Connect to the Server");
+				cs[i]=new JLabel(">> Connect to the Server <<");
 				panels[i]=Helper.createComponent(this,cs[i],w,y,W,1,false);
 				cis[1]=i;
 				panels[i].addMouseListener(new Listener(){
 					public void mouseReleased(MouseEvent e){
+						//~~~~~~~~~~~~~~
+						//连接到服务器
 						String ip;
 						int port;
 						try{
@@ -113,13 +115,27 @@ public final class ToolBar extends Panel {
 				panels[i].addMouseListener(new Listener(){
 					public void mouseReleased(MouseEvent e){
 						if(this.frame.oper.getRoom()!=null){
+							//~~~~~~~~~~~~~~
+							//退出房间
 							ToolBar.this.frame.oper.getPlayer().logoutRoom();
 							ToolBar.this.frame.debugger.debug(ToolBar.this.frame.oper.getRoom()==null?
 									"Get out of the Room successfully!"
 									:"Fail to get out of the Room!");
 						}else{
 							String code=((JTextField)cs[cis[2]]).getText();
-							ToolBar.this.frame.oper.getPlayer().loginRoom(code);
+							if(code==null||code.length()<=0){
+								//~~~~~~~~~~~~~~
+								//创建room
+								code=ToolBar.this.frame.oper.getPlayer().createRoom();
+								((JTextField)cs[cis[2]]).setText(code);
+								ToolBar.this.frame.debugger.debug(ToolBar.this.frame.oper.getRoom()!=null?
+										("Get a new Room code: "+code+"!")
+										:"Fail to get a new Room code!");
+							}else{
+								//~~~~~~~~~~~~~~
+								//连接到room
+								ToolBar.this.frame.oper.getPlayer().loginRoom(code);
+							}
 							ToolBar.this.frame.debugger.debug(ToolBar.this.frame.oper.getRoom()!=null?
 									"Get in Room successfully!"
 									:"Fail to get in the Room!");
