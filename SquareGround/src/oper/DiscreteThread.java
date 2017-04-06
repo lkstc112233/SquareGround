@@ -1,4 +1,4 @@
-package model;
+package oper;
 
 public abstract class DiscreteThread extends Thread {
 	

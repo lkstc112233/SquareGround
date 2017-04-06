@@ -1,4 +1,4 @@
-package frame;
+package view;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -7,7 +7,7 @@ import javax.swing.*;
 
 import main.Helper;
 
-public final class ToolBar extends Panel {
+public final class ToolBar extends Content {
 	private static final long serialVersionUID = -800095694161787037L;
 	
 	
@@ -23,10 +23,13 @@ public final class ToolBar extends Panel {
 	private int[] cis=new int[50];
 	private int imax=0;
 	private boolean show;
-	
+
 	public void setShow(boolean show){
-		this.show=show;
+		this.setShowWithoutRefresh(show);
 		this.refreshDeep();
+	}
+	protected void setShowWithoutRefresh(boolean show){
+		this.show=show;
 	}
 	public boolean getShow(){
 		return this.show;
@@ -86,9 +89,9 @@ public final class ToolBar extends Panel {
 							ToolBar.this.frame.oper.connectServer(ip, port);
 						}catch(Throwable t){
 							t.printStackTrace();
-							ToolBar.this.frame.debugger.debug("ip&port is error!");
+							ToolBar.this.frame.debug("ip&port is error!");
 						}
-						ToolBar.this.frame.debugger.debug(ToolBar.this.frame.oper.isConnected()?
+						ToolBar.this.frame.debug(ToolBar.this.frame.oper.isConnected()?
 								"Server connected!"
 								:"Fail to connect the Server!");
 						ToolBar.this.frame.refreshDeep();
@@ -118,7 +121,7 @@ public final class ToolBar extends Panel {
 							//~~~~~~~~~~~~~~
 							//退出房间
 							ToolBar.this.frame.oper.getPlayer().logoutRoom();
-							ToolBar.this.frame.debugger.debug(ToolBar.this.frame.oper.getRoom()==null?
+							ToolBar.this.frame.debug(ToolBar.this.frame.oper.getRoom()==null?
 									"Get out of the Room successfully!"
 									:"Fail to get out of the Room!");
 						}else{
@@ -128,7 +131,7 @@ public final class ToolBar extends Panel {
 								//创建room
 								code=ToolBar.this.frame.oper.getPlayer().createRoom();
 								((JTextField)cs[cis[2]]).setText(code);
-								ToolBar.this.frame.debugger.debug(ToolBar.this.frame.oper.getRoom()!=null?
+								ToolBar.this.frame.debug(ToolBar.this.frame.oper.getRoom()!=null?
 										("Get a new Room code: "+code+"!")
 										:"Fail to get a new Room code!");
 							}else{
@@ -136,7 +139,7 @@ public final class ToolBar extends Panel {
 								//连接到room
 								ToolBar.this.frame.oper.getPlayer().loginRoom(code);
 							}
-							ToolBar.this.frame.debugger.debug(ToolBar.this.frame.oper.getRoom()!=null?
+							ToolBar.this.frame.debug(ToolBar.this.frame.oper.getRoom()!=null?
 									"Get in Room successfully!"
 									:"Fail to get in the Room!");
 						}

@@ -1,4 +1,4 @@
-package frame;
+package view;
 
 import java.awt.Font;
 import java.awt.Graphics;
@@ -7,22 +7,29 @@ import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
 
 import main.Helper;
+import oper.Operation.Board;
 
 
-public class PanelWaitStart extends Panel{
-	private static final long serialVersionUID = 8478812272127889524L;
-
+public class PanelGame extends Panel{
+	private static final long serialVersionUID = -7360109882668050142L;
+	
+	private Board board;
+		public void recieveBoard(Board board){this.board=board;}
+	protected Determinant thread;
+	
 	private Font font;
-	public PanelWaitStart(){
+	public PanelGame(){
 		this(new Font("Times New Roman",Font.BOLD,15));
 	}
-	public PanelWaitStart(Font font){
+	public PanelGame(Font font){
 		this.font=font;
+		thread=new Determinant();
+		thread.setRefreshable(this);
 	}
 	
 	
 	@Override
-	public void paint(Graphics g){
+	public void draw(Graphics g){
 		Graphics2D g2d=(Graphics2D)g;
 		g.setFont(font);
 		g.setColor(Helper.ColorString);
@@ -39,6 +46,13 @@ public class PanelWaitStart extends Panel{
 	}
 	
 	
+	public void drawBoard(Graphics g){
+		if(board==null)
+			return;
+		int n=board.rows();
+		int m=board.cols();
+		//TODO draw board
+	}
 	
 
 }

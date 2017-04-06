@@ -39,6 +39,9 @@ public class Debugger {
 			this.debug(msg);
 		}
 	}
+	public void debug(String format,Object... args){
+		this.debug(String.format(format,args));
+	}
 	
 	private Font font=new Font("Times New Roman",Font.BOLD,15);
 		public void setFont(Font f){font=f;}

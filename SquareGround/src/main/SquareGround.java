@@ -7,11 +7,9 @@ public class SquareGround {
 		
 		
 		
-		frame.Panel panel=new frame.PanelWaitStart();
-		frame.Listener listener=new frame.MyListener();
 		Debugger debugger=new Debugger();
-		model.Operation oper=new model.MyOperater();
-		frame.Frame frame=new frame.Frame(panel,listener,debugger,oper);
+		oper.Operation oper=new oper.MyOperater();
+		view.Frame frame=new view.Frame(debugger,oper);
 		
 		frame.setVisible(true);
 		

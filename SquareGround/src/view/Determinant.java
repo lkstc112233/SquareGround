@@ -1,13 +1,8 @@
-package frame;
-
-import java.awt.*;
-import javax.swing.JPanel;
+package view;
 
 import main.Helper;
 
-
-
-public abstract class Determinant extends model.DiscreteThread{
+public class Determinant extends oper.DiscreteThread{
 	
 	private String testname;
 		public String getTestName(){return testname;}
@@ -21,7 +16,7 @@ public abstract class Determinant extends model.DiscreteThread{
 		private Refreshable getRefreshable(){return refreshable;}
 		public void setRefreshable(Refreshable refreshable){this.refreshable=refreshable;}
 	
-	public abstract void draw(Graphics g,JPanel panel,double dt);
+	//public abstract void draw(Graphics g,JPanel panel,double dt);
 
 	protected void goby(double dt,int times){
 		if(this.getRefreshable()!=null){

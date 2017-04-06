@@ -1,4 +1,4 @@
-package frame;
+package view;
 
 public interface FrameSon {
 	

@@ -1,4 +1,4 @@
-package model;
+package oper;
 
 public interface Operation {
 	//==========================================================================================
@@ -7,13 +7,23 @@ public interface Operation {
 	public boolean isConnected();
 	public String getIP();
 	public int getPort();
+	//设置回调函数
+	public void setCallBack(CallBack callback);
 	//获取玩家和房间
 	public Player getPlayer();
 	public Room getRoom();
 
 	//==========================================================================================
-	static public interface MessageCallBack{
-		public void getMsg(String o);
+	static public interface CallBack{
+		public void startGame();
+		public void endGame();
+		public void receiveBoard(Board board);
+		public void receiveMessage(String msg);
+	}
+	static public interface Board{
+		public int get(int i,int j);
+		public int rows();
+		public int cols();
 	}
 	//==========================================================================================
 	static public interface Player {
@@ -40,7 +50,6 @@ public interface Operation {
 		public void up();
 		public void down();
 		public void sendMsg();
-		public void setMsgCallBack(MessageCallBack callback);
 	}
 	
 	//==========================================================================================

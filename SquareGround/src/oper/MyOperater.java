@@ -1,4 +1,4 @@
-package model;
+package oper;
 
 import java.util.List;
 
@@ -26,6 +26,13 @@ public class MyOperater implements Operation{
 	public int getPort() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+
+	@Override
+	public void setCallBack(CallBack callback) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
@@ -131,12 +138,6 @@ public class MyOperater implements Operation{
 
 		@Override
 		public void sendMsg() {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void setMsgCallBack(MessageCallBack callback) {
 			// TODO Auto-generated method stub
 			
 		}
