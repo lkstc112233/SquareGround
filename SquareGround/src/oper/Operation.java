@@ -28,11 +28,11 @@ public interface Operation {
 	//==========================================================================================
 	static public interface Player {
 		//设置玩家键值，以IP划分
-		public void setIP(String ip);
+		//public void setIP(String ip);
 		public String getIP();
 		//从字符串解析当前玩家信息
-		public Player parse(String s);
-		public String toString();
+		//public Player parse(String s);
+		//public String toString();
 		//属性
 		public int getScore();
 		public boolean isPlaying();
@@ -49,23 +49,23 @@ public interface Operation {
 		public void right();
 		public void up();
 		public void down();
-		public void sendMsg();
+		public void sendMsg(String msg);
 	}
 	
 	//==========================================================================================
 	static public interface Room {
 		//设置房间键值，以邀请码code划分
-		public void setCode(String code);
+		//public void setCode(String code);
 		public String getCode();
 		//从字符串解析当前房间信息
-		public Room parse(String s);
-		public String toString();
+		//public Room parse(String s);
+		//public String toString();
 		//属性
 		public int getNumberOfPeopleInRoom();
 		public int getMaxmumOfPeopleInRoom();
 		public boolean isGameStart();
-		public java.util.List<String> getPlayerIPs();
-		public int[][] getMap();
+		//public java.util.List<String> getPlayerIPs();
+		//public Board getMap();
 	}
 	
 	
