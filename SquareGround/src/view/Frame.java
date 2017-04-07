@@ -41,6 +41,7 @@ public final class Frame extends JFrame implements Refreshable,oper.Operation.Ca
 		this.debugger=debugger;
 		//operation
 		this.oper=oper;
+		oper.setCallBack(this);
 	}
 
 	@Override

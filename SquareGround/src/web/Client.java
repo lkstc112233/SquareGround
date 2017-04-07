@@ -4,14 +4,16 @@ import java.io.*;
 import java.net.*;
 
 
-public class Client extends Socket{
+public class Client {
+	
+	protected Socket socket;
 	
 	static public final String charset="UNICODE"; 
 	
 	public Client(String ip,int port) throws UnknownHostException, IOException{
-		super(ip,port);
-		out=new BufferedWriter(new OutputStreamWriter(this.getOutputStream(),charset));
-		in=new BufferedReader(new InputStreamReader(this.getInputStream(),charset));
+		socket=new Socket(ip,port);
+		out=new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(),charset));
+		in=new BufferedReader(new InputStreamReader(socket.getInputStream(),charset));
 	}
 	
 	protected BufferedWriter out=null;

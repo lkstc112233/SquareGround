@@ -1,7 +1,6 @@
 package oper;
 
 import java.io.IOException;
-import web.Client;
 import web.ClientAutoScanner;
 import web.ClientAutoScanner.ClientAutoScannerTimeoutException;
 
@@ -26,7 +25,7 @@ public final class MyOperater implements Operation{
 
 	
 	private web.ClientAutoScanner.CallBack solver=new web.ClientAutoScanner.CallBack(){
-		public void solve(Client client, String[] msg) throws Throwable {
+		public void solve(web.ClientAutoScanner client, String[] msg) throws Throwable {
 			if(msg!=null && msg.length>1){
 				if(msg[1].equals("startGame")){
 					synchronized(MyOperater.this.func){
@@ -86,17 +85,17 @@ public final class MyOperater implements Operation{
 
 	@Override
 	public boolean isConnected() {
-		return client!=null && !client.isClosed() && !client.isInputShutdown() && !client.isOutputShutdown(); 
+		return client!=null && !client.getSocket().isClosed() && !client.getSocket().isInputShutdown() && !client.getSocket().isOutputShutdown(); 
 	}
 
 	@Override
 	public String getIP() {
-		return client.getInetAddress().getHostAddress();
+		return client.getSocket().getInetAddress().getHostAddress();
 	}
 
 	@Override
 	public int getPort() {
-		return client.getLocalPort();
+		return client.getSocket().getLocalPort();
 	}
 
 	
