@@ -24,6 +24,13 @@ public class Room {
 	public synchronized void addPlayer(Player p){
 		players.add(p);
 	}
+	public synchronized boolean containsPlayer(Player p){
+		return players.contains(p);
+	}
+	public synchronized void removePlayer(Player p){
+		if(this.containsPlayer(p))
+			players.remove(p);
+	}
 	
 	
 	
