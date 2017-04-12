@@ -2,13 +2,15 @@ package model;
 
 import web.MyServer;
 
-public class Player implements Comparable<Player>{
+public final class Player implements Comparable<Player>{
 	public final String ip;
 	public final MyServer.MySocket socket;
+	protected Room room=null;
+	public Room getRoom(){return room;}
 	
-	public Player(MyServer.MySocket socket){
-		this.ip=socket.getSocket().getInetAddress().getHostAddress();
+	protected Player(MyServer.MySocket socket){
 		this.socket=socket;
+		this.ip=socket.getSocket().getInetAddress().getHostAddress();
 	}
 	
 	public boolean equals(Object o){
@@ -22,7 +24,6 @@ public class Player implements Comparable<Player>{
 	public int compareTo(Player o) {
 		return ip.compareTo(o.ip);
 	}
-	
 	
 	
 	

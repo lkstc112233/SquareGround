@@ -40,8 +40,9 @@ public final class MyOperater implements Operation{
 					try{
 						int n=Integer.parseInt(msg[2]);
 						int m=Integer.parseInt(msg[3]);
-						int k=4;
-						board=new MyBoard(n,m);
+						int numberPlayerAdd=Integer.parseInt(msg[4]);
+						int k=5;
+						board=new MyBoard(n,m,numberPlayerAdd);
 						for(int i=0;i<n;i++) for(int j=0;j<m;j++)
 							board.data[i][j]=Integer.parseInt(msg[k++]);
 					}catch(NumberFormatException e){
@@ -185,7 +186,7 @@ public final class MyOperater implements Operation{
 
 		@Override
 		public boolean loginRoom(String code) {
-			String[] res=MyOperater.this.query("loginRoom");
+			String[] res=MyOperater.this.query("loginRoom",code);
 			if(res==null || res.length<=1){
 				MyOperater.this.room=null;
 				return false;
@@ -203,7 +204,7 @@ public final class MyOperater implements Operation{
 		@Override
 		public void logoutRoom() {
 			try {
-				MyOperater.this.client.write("logoutRoom");
+				MyOperater.this.client.write(System.currentTimeMillis(),"logoutRoom");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -212,7 +213,7 @@ public final class MyOperater implements Operation{
 		@Override
 		public void left() {
 			try {
-				MyOperater.this.client.write("left");
+				MyOperater.this.client.write(System.currentTimeMillis(),"left");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -221,7 +222,7 @@ public final class MyOperater implements Operation{
 		@Override
 		public void right() {
 			try {
-				MyOperater.this.client.write("right");
+				MyOperater.this.client.write(System.currentTimeMillis(),"right");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -230,7 +231,7 @@ public final class MyOperater implements Operation{
 		@Override
 		public void up() {
 			try {
-				MyOperater.this.client.write("up");
+				MyOperater.this.client.write(System.currentTimeMillis(),"up");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -239,7 +240,7 @@ public final class MyOperater implements Operation{
 		@Override
 		public void down() {
 			try {
-				MyOperater.this.client.write("down");
+				MyOperater.this.client.write(System.currentTimeMillis(),"down");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -248,7 +249,7 @@ public final class MyOperater implements Operation{
 		@Override
 		public void sendMsg(String msg) {
 			try {
-				MyOperater.this.client.write("sendMsg",msg);
+				MyOperater.this.client.write(System.currentTimeMillis(),"sendMsg",msg);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

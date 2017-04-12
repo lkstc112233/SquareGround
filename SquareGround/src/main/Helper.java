@@ -16,7 +16,6 @@ public final class Helper {
 	static public Color ColorBoardEdge=Color.DARK_GRAY;
 	static public java.util.List<Color> ColorPlayer=new ArrayList<Color>();
 	static public java.util.List<Color> ColorPlayer_road=new ArrayList<Color>();
-	static public int numberPlayerAdd=1000000; 
 	
 	static{
 		Color[] tmp=new Color[]{

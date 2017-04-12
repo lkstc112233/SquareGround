@@ -40,8 +40,8 @@ public class PanelGame extends Panel{
 		for(int i=0;i<n;i++) for(int j=0;j<m;j++){
 			int x=board.get(i,j)-1;
 			int statu=0;
-			if(x>Helper.numberPlayerAdd){
-				x-=Helper.numberPlayerAdd;
+			if(x>board.numberPlayerAdd()){
+				x-=board.numberPlayerAdd();
 				statu=1;
 			}else if(x<0){
 				x=-x;

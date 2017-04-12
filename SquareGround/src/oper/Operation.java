@@ -24,6 +24,7 @@ public interface Operation {
 		public int get(int i,int j);
 		public int rows();
 		public int cols();
+		public int numberPlayerAdd();
 	}
 	//==========================================================================================
 	static public interface Player {
