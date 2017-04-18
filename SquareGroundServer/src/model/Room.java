@@ -54,26 +54,28 @@ public final class Room implements Comparable<Room>{
 	
 	
 	public void GameStart(int n,int m){
-		this.game=new Game(n,m,this.players.size(),this.players.size());
+		this.game=new Game(n,m,this.players.size(),this.players);
+		this.game.start();
 	}
 	
 
 	public Game game=null;
 	
-	public class Game{
+	public class Game extends Thread{
 		//TODO Game
-		private final int num;
+		private final int n,m;
 		private int board[][];
 		private final int numberPlayerAdd;
 		
-		protected Game(int n,int m,int num,int numberPlayerAdd,Set<Player> players){
+		protected Game(int n,int m,int numberPlayerAdd,Set<Player> players){
+			this.n=n;
+			this.m=m;
 			this.board=new int[n][m];
 			for(int i=0;i<n;i++){
 				for(int j=0;j<m;j++){
 					board[i][j]=0;
 				}
 			}
-			this.num=num;
 			this.numberPlayerAdd=numberPlayerAdd;
 			this.points=new HashMap<Player,Pair<Integer,Point>>();
 			List<Point> startPoints=new ArrayList<Point>();
@@ -91,23 +93,72 @@ public final class Room implements Comparable<Room>{
 		
 		private final Map<Player,Pair<Integer,Point>> points;
 		
+		private boolean checkRun(){
+			for(Pair<Integer,Point> p:points.values())
+				if(p.y!=null) return true;
+			return false;
+		}
+
+		static public final long dt=1000;
+		@Override
+		public void run(){
+			while(checkRun()){
+				long st=System.currentTimeMillis();
+				for(Pair<Integer,Point> p:points.values())
+					synchronized(p.y){
+						if(p.y!=null){
+							//alive player
+							Pair<Integer,Integer> tmp=new Pair<Integer,Integer>
+								(p.y.x,p.y.y);
+							p.y.move();
+							
+						}
+					}
+				long end=System.currentTimeMillis();
+				if(end-st<dt){
+					try {
+						Thread.sleep(dt-end+st);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+		
 		@Override
 		public String toString(){
-			StringBuilder sb=new StringBuilder();
-			return sb.toString();
+			List<Object>res=new ArrayList<Object>();
+			res.add(n);res.add(m);
+			res.add(this.numberPlayerAdd);
+			for(int i=0;i<n;i++)for(int j=0;j<m;j++)
+				res.add(board[i][j]);
+			return web.WebCommunityInterface.toString(res.toArray());
 		}
 		
 		public void operateLeft(Player p){
-			int index=Room.this.players.
+			//int index=this.points.get(p).x;
+			Point pp=this.points.get(p).y;
+			synchronized(pp){
+				pp.dir=Point.Direction.L;
+			}
 		}
 		public void operateRight(Player p){
-			
+			Point pp=this.points.get(p).y;
+			synchronized(pp){
+				pp.dir=Point.Direction.R;
+			}
 		}
 		public void operateUp(Player p){
-			
+			Point pp=this.points.get(p).y;
+			synchronized(pp){
+				pp.dir=Point.Direction.U;
+			}
 		}
 		public void operateDown(Player p){
-			
+			Point pp=this.points.get(p).y;
+			synchronized(pp){
+				pp.dir=Point.Direction.D;
+			}
 		}
 	}
 	

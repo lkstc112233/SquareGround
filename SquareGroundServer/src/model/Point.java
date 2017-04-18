@@ -15,6 +15,7 @@ public class Point extends Pair<Integer,Integer>{
 	
 	public Point(int x,int y){
 		super(x,y);
+		dir=Direction.values()[(int)(Math.random()*Direction.values().length)];
 	}
 	public void move(){
 		super.x+=dir.dx;
